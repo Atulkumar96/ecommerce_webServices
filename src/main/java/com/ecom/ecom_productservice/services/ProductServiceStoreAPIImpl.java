@@ -44,4 +44,10 @@ public class ProductServiceStoreAPIImpl implements ProductService{
 
         return product;
     }
+
+    @Override
+    public GenericProductDto getProductById(int id) {
+        FakeStoreProductDto fakeStoreProductDto = fakeStoreProductServiceClient.getProductById(id);
+        return putFakeStoreDtoItemsToGenericDtoItems(fakeStoreProductDto);
+    }
 }

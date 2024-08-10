@@ -17,16 +17,23 @@ public class FakeStoreProductServiceClient {
     private String fakeStoreProductsApiPath;
 
     private String productRequestBaseUrl;
+    private String specificProductRequestUrl;
     private RestTemplate restTemplate;
 
     public FakeStoreProductServiceClient(RestTemplate restTemplate, @Value("https://fakestoreapi.com") String fakeStoreAPIUrl, @Value("/products") String fakeStoreProductsApiPath) {
         this.restTemplate = restTemplate;
         this.productRequestBaseUrl = fakeStoreAPIUrl + fakeStoreProductsApiPath;
+        this.specificProductRequestUrl = productRequestBaseUrl + "/{id}";
     }
 
     public List<FakeStoreProductDto> getAllProducts(){
          ResponseEntity<FakeStoreProductDto[]> response = restTemplate.getForEntity(productRequestBaseUrl, FakeStoreProductDto[].class);
          return List.of(response.getBody());
+    }
+
+    public FakeStoreProductDto getProductById(int productId){
+        return restTemplate.getForEntity(specificProductRequestUrl, FakeStoreProductDto.class, productId).getBody();
+
     }
     
 }
