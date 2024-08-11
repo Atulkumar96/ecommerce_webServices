@@ -10,10 +10,20 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FakeStoreProductDto {
-    private int productId;
+    private int id;
     private String title;
     private double price;
     private String category;
     private String description;
     private String imageURL;
 }
+
+//output
+//            {
+//id:31,
+//title:'...',
+//price:'...',
+//category:'...',
+//description:'...',
+//image:'...'
+//        }

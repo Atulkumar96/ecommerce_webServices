@@ -35,8 +35,8 @@ public class ProductServiceStoreAPIImpl implements ProductService{
     public static GenericProductDto putFakeStoreDtoItemsToGenericDtoItems(FakeStoreProductDto fakeStoreProductDto){
         GenericProductDto product = new GenericProductDto();
 
-        product.setProductId(fakeStoreProductDto.getProductId());
-        product.setProductName(fakeStoreProductDto.getTitle());
+        product.setProductId(fakeStoreProductDto.getId());
+        product.setTitle(fakeStoreProductDto.getTitle());
         product.setCategory(fakeStoreProductDto.getCategory());
         product.setDescription(fakeStoreProductDto.getDescription());
         product.setPrice(fakeStoreProductDto.getPrice());
@@ -49,5 +49,10 @@ public class ProductServiceStoreAPIImpl implements ProductService{
     public GenericProductDto getProductById(int id) {
         FakeStoreProductDto fakeStoreProductDto = fakeStoreProductServiceClient.getProductById(id);
         return putFakeStoreDtoItemsToGenericDtoItems(fakeStoreProductDto);
+    }
+
+    @Override
+    public GenericProductDto addProduct(GenericProductDto product) {
+        return putFakeStoreDtoItemsToGenericDtoItems(fakeStoreProductServiceClient.addProduct(product));
     }
 }

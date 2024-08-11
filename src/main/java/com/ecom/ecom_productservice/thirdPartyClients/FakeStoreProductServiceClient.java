@@ -1,8 +1,12 @@
 package com.ecom.ecom_productservice.thirdPartyClients;
 
+import com.ecom.ecom_productservice.dtos.GenericProductDto;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RequestCallback;
+import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -33,7 +37,16 @@ public class FakeStoreProductServiceClient {
 
     public FakeStoreProductDto getProductById(int productId){
         return restTemplate.getForEntity(specificProductRequestUrl, FakeStoreProductDto.class, productId).getBody();
-
     }
-    
+
+    public FakeStoreProductDto addProduct(GenericProductDto productDto){
+        return restTemplate.postForEntity(productRequestBaseUrl, productDto, FakeStoreProductDto.class).getBody();
+//        RequestCallback requestCallback = restTemplate.acceptHeaderRequestCallback(FakeStoreProductDto.class);
+//        ResponseExtractor<ResponseEntity<FakeStoreProductDto>> responseExtractor =
+//                restTemplate.responseEntityExtractor(FakeStoreProductDto.class);
+//        ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate.execute(productRequestBaseUrl,
+//                HttpMethod.POST,requestCallback,responseExtractor,productDto);
+//        return responseEntity.getBody();
+    }
+
 }

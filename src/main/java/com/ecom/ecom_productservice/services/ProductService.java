@@ -8,4 +8,6 @@ public interface ProductService {
     List<GenericProductDto> getAllProducts();
 
     GenericProductDto getProductById(int id);
+
+    GenericProductDto addProduct(GenericProductDto product);
 }

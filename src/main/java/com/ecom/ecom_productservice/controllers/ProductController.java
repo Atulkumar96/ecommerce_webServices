@@ -4,10 +4,7 @@ import com.ecom.ecom_productservice.dtos.GenericProductDto;
 import com.ecom.ecom_productservice.services.ProductService;
 import com.ecom.ecom_productservice.thirdPartyClients.FakeStoreProductDto;
 import com.ecom.ecom_productservice.thirdPartyClients.FakeStoreProductServiceClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,7 +13,7 @@ import java.util.List;
 public class ProductController {
     private ProductService productService;
 
-    public ProductController(ProductService productService, FakeStoreProductServiceClient fakeStoreProductServiceClient){
+    public ProductController(ProductService productService){
         this.productService = productService;
     }
 
@@ -29,6 +26,11 @@ public class ProductController {
     @GetMapping("{id}")
     public GenericProductDto getProductById(@PathVariable("id") int id){
         return productService.getProductById(id);
+    }
+
+    @PostMapping
+    public GenericProductDto addProduct(@RequestBody GenericProductDto productDto){
+        return productService.addProduct(productDto);
     }
 
 }
