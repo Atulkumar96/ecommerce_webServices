@@ -10,4 +10,6 @@ public interface ProductService {
     GenericProductDto getProductById(int id);
 
     GenericProductDto addProduct(GenericProductDto product);
+
+    GenericProductDto updateProduct(GenericProductDto product, int id);
 }

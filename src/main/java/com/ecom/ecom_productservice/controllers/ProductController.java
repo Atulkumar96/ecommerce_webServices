@@ -33,4 +33,10 @@ public class ProductController {
         return productService.addProduct(productDto);
     }
 
+    @PatchMapping("{id}")
+    public GenericProductDto updateProduct(@RequestBody GenericProductDto productDto
+    , @PathVariable("id") int id){
+        return productService.updateProduct(productDto, id);
+    }
+
 }

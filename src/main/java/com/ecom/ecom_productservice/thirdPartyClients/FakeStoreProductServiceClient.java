@@ -2,8 +2,10 @@ package com.ecom.ecom_productservice.thirdPartyClients;
 
 import com.ecom.ecom_productservice.dtos.GenericProductDto;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.ResponseExtractor;
@@ -47,6 +49,12 @@ public class FakeStoreProductServiceClient {
 //        ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate.execute(productRequestBaseUrl,
 //                HttpMethod.POST,requestCallback,responseExtractor,productDto);
 //        return responseEntity.getBody();
+    }
+
+    public FakeStoreProductDto updateProduct(GenericProductDto productDto, int id){
+       //For PATCH method need DEPENDENCY - org.apache.httpcomponents.client5 in POM.XML
+        restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+        return restTemplate.exchange(specificProductRequestUrl,HttpMethod.PATCH,new HttpEntity<>(productDto),FakeStoreProductDto.class,id).getBody();
     }
 
 }

@@ -55,4 +55,9 @@ public class ProductServiceStoreAPIImpl implements ProductService{
     public GenericProductDto addProduct(GenericProductDto product) {
         return putFakeStoreDtoItemsToGenericDtoItems(fakeStoreProductServiceClient.addProduct(product));
     }
+
+    @Override
+    public GenericProductDto updateProduct(GenericProductDto product, int id) {
+        return putFakeStoreDtoItemsToGenericDtoItems(fakeStoreProductServiceClient.updateProduct(product, id));
+    }
 }
