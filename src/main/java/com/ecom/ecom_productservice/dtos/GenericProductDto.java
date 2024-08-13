@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GenericProductDto {
+public class GenericProductDto { //To interact with 3rd party API we dtos instead of models
     private int productId;
     private String title;
     private double price;
