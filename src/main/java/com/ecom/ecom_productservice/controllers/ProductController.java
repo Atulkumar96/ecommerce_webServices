@@ -39,4 +39,9 @@ public class ProductController {
         return productService.updateProduct(productDto, id);
     }
 
+    @DeleteMapping("{id}")
+    public GenericProductDto deleteProduct(@PathVariable int id){
+        return productService.deleteProduct(id);
+    }
+
 }

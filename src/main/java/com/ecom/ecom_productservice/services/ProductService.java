@@ -12,4 +12,6 @@ public interface ProductService {
     GenericProductDto addProduct(GenericProductDto product);
 
     GenericProductDto updateProduct(GenericProductDto product, int id);
+
+    GenericProductDto deleteProduct(int id);
 }

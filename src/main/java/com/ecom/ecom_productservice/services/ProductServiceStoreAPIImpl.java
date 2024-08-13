@@ -60,4 +60,9 @@ public class ProductServiceStoreAPIImpl implements ProductService{
     public GenericProductDto updateProduct(GenericProductDto product, int id) {
         return putFakeStoreDtoItemsToGenericDtoItems(fakeStoreProductServiceClient.updateProduct(product, id));
     }
+
+    @Override
+    public GenericProductDto deleteProduct(int id){
+        return putFakeStoreDtoItemsToGenericDtoItems(fakeStoreProductServiceClient.deleteProduct(id));
+    }
 }

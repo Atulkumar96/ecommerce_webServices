@@ -57,4 +57,8 @@ public class FakeStoreProductServiceClient {
         return restTemplate.exchange(specificProductRequestUrl,HttpMethod.PATCH,new HttpEntity<>(productDto),FakeStoreProductDto.class,id).getBody();
     }
 
+    public FakeStoreProductDto deleteProduct(int id){
+        return restTemplate.exchange(specificProductRequestUrl,HttpMethod.DELETE, null,FakeStoreProductDto.class,id).getBody();
+    }
+
 }
