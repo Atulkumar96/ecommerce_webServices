@@ -1,5 +1,6 @@
 package com.ecom.ecom_productservice.models;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
@@ -12,6 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass //No table for this Parent Class - its child classes will have its attribute uuid
+//@Entity
 public class BaseModel {
     @Id //for PK
     @GeneratedValue(generator = "uuidgenerator")
