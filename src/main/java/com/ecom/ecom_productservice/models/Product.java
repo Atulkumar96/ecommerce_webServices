@@ -7,10 +7,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-//@Entity(name = "productsTable")
+//@Entity
+@Entity(name = "products")
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Product extends BaseModel{
     //private Long id;
     private String title;
