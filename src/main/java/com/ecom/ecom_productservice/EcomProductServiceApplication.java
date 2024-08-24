@@ -36,21 +36,21 @@ public class EcomProductServiceApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		//created a category and saved using categoryRepository.save(category);
 		Category category = new Category();
-		category.setCategory_name("Mobile Phones");
+		category.setCategory_name("Clothing");
 
 		categoryRepository.save(category);
 
 		//created a product and saved using productRepository.save(category);
 		Product product = new Product();
-		product.setTitle("Iphone 15");
-		product.setDescription("Iphone 15");
+		product.setTitle("T-shirt");
+		product.setDescription("Polo");
 		product.setPrice(100.0);
 		product.setCategory(category);
 		product.setImageURL(null);
 
 		Product product1 = new Product();
-		product1.setTitle("Samsung");
-		product1.setDescription("Samsung");
+		product1.setTitle("Denim");
+		product1.setDescription("Spykar");
 		product1.setPrice(150.0);
 		product1.setCategory(category);
 		product1.setImageURL(null);
@@ -60,12 +60,24 @@ public class EcomProductServiceApplication implements CommandLineRunner {
 
 		//created an order and saved using orderRepository.save(category);
 		Order order = new Order();
+
 		List<Product> products = new ArrayList<>();
 		products.add(product);
 		products.add(product1);
+
 		order.setProducts(products);
 
 		orderRepository.save(order);
+
+		//JPA Queries called
+		List<Product> productsFromJPA = productRepository.findByTitle("Samsung");
+
+		System.out.println(productsFromJPA);
+
+		//Native Query called
+		List<Product> productsByCategoryName = productRepository.findAllByCategory_Category_name("Clothing");
+		System.out.println(productsByCategoryName);
+
 	}
 
 }
