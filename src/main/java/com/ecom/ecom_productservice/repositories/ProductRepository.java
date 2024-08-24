@@ -14,7 +14,7 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     //JPA queries in Repository
     List<Product> findByTitle(String title);
 
-    @Query(value = "select p.uuid, p.description, p.imageurl, p.price, p.title, p.category_uuid from products p join categories c on p.category_uuid = c.uuid where category_name = :categoryName",
+    @Query(value = CustomNativeQueries.findAllProductsByCategoryName,
     nativeQuery = true)
     List<Product> findAllByCategory_Category_name(String categoryName);
 }
