@@ -1,5 +1,6 @@
 package com.ecom.ecom_productservice.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Category extends BaseModel{
-    private String category_name;
-    @OneToMany(mappedBy = "category") //just mapping many column table's attribute 'category'
+    private String categoryName;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true) //just mapping many column table's attribute 'category'
     private List<Product> products;
 }
