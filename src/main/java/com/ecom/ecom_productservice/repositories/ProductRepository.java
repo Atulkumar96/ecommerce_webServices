@@ -26,6 +26,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Override
     Optional<Product> findById(Integer id);
+
+    @Override
+    void deleteById(Integer integer);
 }
 
 //JpaRepository extends PagingAndSortingRepository which in turn extends CrudRepository

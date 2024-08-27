@@ -1,6 +1,7 @@
 package com.ecom.ecom_productservice.controllers;
 
 import com.ecom.ecom_productservice.dtos.GenericProductDto;
+import com.ecom.ecom_productservice.repositories.ProductRepository;
 import com.ecom.ecom_productservice.services.ProductService;
 import com.ecom.ecom_productservice.thirdPartyClients.FakeStoreProductDto;
 import com.ecom.ecom_productservice.thirdPartyClients.FakeStoreProductServiceClient;
@@ -11,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-    private ProductService productService;
+    private final ProductService productService;
 
     public ProductController(ProductService productService){
         this.productService = productService;

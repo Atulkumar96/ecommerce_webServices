@@ -85,6 +85,9 @@ public class ProductServiceEcomStore implements ProductService{
 
     @Override
     public GenericProductDto deleteProduct(int id) {
+        if(productRepository.existsById(id)){
+            productRepository.deleteById(id);
+        }
         return null;
     }
 
