@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Primary
@@ -52,8 +53,34 @@ public class ProductServiceEcomStore implements ProductService{
     }
 
     @Override
-    public GenericProductDto updateProduct(GenericProductDto product, int id) {
-        return null;
+    public GenericProductDto updateProduct(GenericProductDto genericProductDto, int id) {
+        Optional<Product> productToUpdate = productRepository.findById(genericProductDto.getProductId());
+        if(productToUpdate.isPresent()){
+            Product product = productToUpdate.get();
+
+            product.setId(genericProductDto.getProductId());
+            product.setTitle(genericProductDto.getTitle());
+            product.setDescription(genericProductDto.getDescription());
+            product.setPrice(genericProductDto.getPrice());
+            product.setImageURL(genericProductDto.getImageURL());
+
+            Category categoryAssigned = product.getCategory();
+            //categoryAssigned != categoryInDto = means new Category is needed to be created
+            if(!Objects.equals(categoryAssigned.getCategoryName(), genericProductDto.getCategory())){
+                Category category = new Category(); //new Category
+                category.setCategoryName(genericProductDto.getCategory());
+
+                Category categorySaved = categoryRepository.save(category);
+
+                product.setCategory(categorySaved); //new Category
+            }
+
+            Product savedProduct = productRepository.save(product);
+            return convertProductToGenericProductDto(savedProduct);
+        }
+        else{
+            return null;
+        }
     }
 
     @Override
