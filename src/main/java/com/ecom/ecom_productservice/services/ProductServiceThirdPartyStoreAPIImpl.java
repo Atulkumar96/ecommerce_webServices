@@ -1,13 +1,16 @@
 package com.ecom.ecom_productservice.services;
 
 import com.ecom.ecom_productservice.dtos.GenericProductDto;
+import com.ecom.ecom_productservice.exceptions.NotFoundException;
 import com.ecom.ecom_productservice.thirdPartyClients.FakeStoreProductDto;
 import com.ecom.ecom_productservice.thirdPartyClients.FakeStoreProductServiceClient;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Primary
 @Service
 public class ProductServiceThirdPartyStoreAPIImpl implements ProductService{
 
@@ -45,8 +48,13 @@ public class ProductServiceThirdPartyStoreAPIImpl implements ProductService{
     }
 
     @Override
-    public GenericProductDto getProductById(int id) {
+    public GenericProductDto getProductById(int id) throws NotFoundException{
         FakeStoreProductDto fakeStoreProductDto = fakeStoreProductServiceClient.getProductById(id);
+
+        if(fakeStoreProductDto == null) {
+            throw new NotFoundException("Product with id = "+id+" doesn't exists");
+        }
+
         return putFakeStoreDtoItemsToGenericDtoItems(fakeStoreProductDto);
     }
 

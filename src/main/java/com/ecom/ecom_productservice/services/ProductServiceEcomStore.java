@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-@Primary
+//@Primary
 @Service
 public class ProductServiceEcomStore implements ProductService{
     private final CategoryRepository categoryRepository;

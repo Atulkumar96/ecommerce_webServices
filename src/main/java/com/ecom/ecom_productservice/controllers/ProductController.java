@@ -1,10 +1,14 @@
 package com.ecom.ecom_productservice.controllers;
 
+import com.ecom.ecom_productservice.dtos.ExceptionDto;
 import com.ecom.ecom_productservice.dtos.GenericProductDto;
+import com.ecom.ecom_productservice.exceptions.NotFoundException;
 import com.ecom.ecom_productservice.repositories.ProductRepository;
 import com.ecom.ecom_productservice.services.ProductService;
 import com.ecom.ecom_productservice.thirdPartyClients.FakeStoreProductDto;
 import com.ecom.ecom_productservice.thirdPartyClients.FakeStoreProductServiceClient;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +29,7 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public GenericProductDto getProductById(@PathVariable("id") int id){
+    public GenericProductDto getProductById(@PathVariable("id") int id) throws NotFoundException {
         return productService.getProductById(id);
     }
 
@@ -41,8 +45,21 @@ public class ProductController {
     }
 
     @DeleteMapping("{id}")
-    public GenericProductDto deleteProduct(@PathVariable int id){
-        return productService.deleteProduct(id);
+    public ResponseEntity<GenericProductDto> deleteProduct(@PathVariable int id){
+        return new ResponseEntity<>(productService.deleteProduct(id), HttpStatus.OK);
+
+        //Ecom service does not return a body
+        //ThirdParty Store service returns the deleted object in the body
+        //Check @Primary is being used in which service
+    }
+
+    //If any endpoint mapped method's service throws a NotFoundException then below Exception Handler
+    //gets executed
+    //Exception Handler for NotFoundException class
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ExceptionDto> handleNotFoundException(NotFoundException notFoundException){
+        return new ResponseEntity<>(new ExceptionDto(HttpStatus.NOT_FOUND,
+                notFoundException.getMessage()), HttpStatus.NOT_FOUND);
     }
 
 }
