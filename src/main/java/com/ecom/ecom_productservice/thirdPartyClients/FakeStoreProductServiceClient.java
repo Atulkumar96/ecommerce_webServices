@@ -14,6 +14,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
+/*
+* Wrapper over FakeStore API
+*/
 @Service
 public class FakeStoreProductServiceClient {
 

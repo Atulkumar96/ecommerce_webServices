@@ -53,13 +53,14 @@ public class ProductController {
         //Check @Primary is being used in which service
     }
 
-    //If any endpoint mapped method's service throws a NotFoundException then below Exception Handler
+    //Exception Handler - If any endpoint mapped method's service throws a NotFoundException then below Exception Handler
     //gets executed
+    //Global Exception Handler - We can have below method in ControllerAdvices class having @ControllerAdvice
     //Exception Handler for NotFoundException class
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ExceptionDto> handleNotFoundException(NotFoundException notFoundException){
-        return new ResponseEntity<>(new ExceptionDto(HttpStatus.NOT_FOUND,
-                notFoundException.getMessage()), HttpStatus.NOT_FOUND);
-    }
+//    @ExceptionHandler(NotFoundException.class)
+//    public ResponseEntity<ExceptionDto> handleNotFoundException(NotFoundException notFoundException){
+//        return new ResponseEntity<>(new ExceptionDto(HttpStatus.NOT_FOUND,
+//                notFoundException.getMessage()), HttpStatus.NOT_FOUND);
+//    }
 
 }
