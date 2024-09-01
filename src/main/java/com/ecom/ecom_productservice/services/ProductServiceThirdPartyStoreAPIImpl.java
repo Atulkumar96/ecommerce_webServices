@@ -53,6 +53,7 @@ public class ProductServiceThirdPartyStoreAPIImpl implements ProductService{
 
         if(fakeStoreProductDto == null) {
             throw new NotFoundException("Product with id = "+id+" doesn't exists");
+            //return null;
         }
 
         return putFakeStoreDtoItemsToGenericDtoItems(fakeStoreProductDto);
