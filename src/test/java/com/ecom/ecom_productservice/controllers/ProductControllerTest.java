@@ -27,7 +27,7 @@ public class ProductControllerTest {
         genericProductDto.setTitle("Atul");
 
         /*1. mocked the dependency - to test the productController.getProductById() method in Isolation
-        productService is @MockBean object here
+        productService is @MockBean object here and used when().then() to hardcode its code
         productService.getProductById(1) is mocked/hardcoded to return the above created genericProductDto
         productService.getProductById(2) is will return null as productService is mocked -  so it will not return the real Product from Db
         */
