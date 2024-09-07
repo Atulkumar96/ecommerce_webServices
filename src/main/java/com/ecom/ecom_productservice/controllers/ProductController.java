@@ -38,8 +38,13 @@ public class ProductController {
     }
 
     @PostMapping
-    public GenericProductDto addProduct(@RequestBody GenericProductDto productDto){
-        return productService.addProduct(productDto);
+    public ResponseEntity<GenericProductDto> addProduct(@RequestBody GenericProductDto productDto) {
+        GenericProductDto addedProduct = productService.addProduct(productDto);
+        ResponseEntity<GenericProductDto> response = (addedProduct == null)
+                        ? new ResponseEntity<>(addedProduct, HttpStatus.INTERNAL_SERVER_ERROR)
+                        : new ResponseEntity<>(addedProduct, HttpStatus.CREATED);
+
+        return response;
     }
 
     @PatchMapping("{id}")
