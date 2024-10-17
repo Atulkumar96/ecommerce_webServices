@@ -1,11 +1,15 @@
 package com.ecom.ecom_productservice.services;
 
 import com.ecom.ecom_productservice.dtos.GenericProductDto;
+import com.ecom.ecom_productservice.dtos.SendEmail;
 import com.ecom.ecom_productservice.models.Category;
 import com.ecom.ecom_productservice.models.Product;
 import com.ecom.ecom_productservice.repositories.CategoryRepository;
 import com.ecom.ecom_productservice.repositories.ProductRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Primary;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,15 +17,20 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-//@Primary
+@Primary
 @Service
 public class ProductServiceEcomStore implements ProductService{
     private final CategoryRepository categoryRepository;
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final ObjectMapper objectMapper; //POJO to JSON string //SendEmail object to its corresponding JSON string representation
 
-    public ProductServiceEcomStore(ProductRepository productRepository, CategoryRepository categoryRepository) {
+    public ProductServiceEcomStore(ProductRepository productRepository, CategoryRepository categoryRepository, KafkaTemplate<String, String> kafkaTemplate, ObjectMapper objectMapper)
+    {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
+        this.kafkaTemplate = kafkaTemplate;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -36,12 +45,13 @@ public class ProductServiceEcomStore implements ProductService{
 
     public GenericProductDto getProductById(int id) {
         Optional<Product> product = productRepository.findById(id);
-        if(product.isPresent()){
-            return convertProductToGenericProductDto(product.get());
-        }
-        else{
-            return null;
-        }
+        return product.map(this::convertProductToGenericProductDto).orElse(null);
+//        if(product.isPresent()){
+//            return convertProductToGenericProductDto(product.get());
+//        }
+//        else{
+//            return null;
+//        }
 
         //return product.map(this::convertProductToProductDto).orElse(null);
     }
@@ -49,6 +59,20 @@ public class ProductServiceEcomStore implements ProductService{
     @Override
     public GenericProductDto addProduct(GenericProductDto genericProduct) {
         Product savedProduct = productRepository.save(convertGenericProductToProduct(genericProduct));
+
+        //Kafka: Add ProductAdded Event to Kafka for Email Service to consume & mail the product added
+        SendEmail sendEmail = new SendEmail();
+        sendEmail.setTo("atul.kumar9631@gmail.com");
+        sendEmail.setFrom("atulofficial82@gmail.com");
+        sendEmail.setSubject("A new Product added");
+        sendEmail.setBody("Hi Admin, \""+savedProduct.getTitle()+ "\" has been added to Ecom Store");
+        try {
+            //Add sendEmail event to kafka for asynchronous communication
+            kafkaTemplate.send("TopicSendEmail", objectMapper.writeValueAsString(sendEmail));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
         return convertProductToGenericProductDto(savedProduct);
     }
 

@@ -5,6 +5,8 @@ import com.ecom.ecom_productservice.models.Product;
 import com.ecom.ecom_productservice.services.ProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -87,4 +89,26 @@ public class ProductControllerWebMvcTest {
     }
 }
 
-//Test Cases must be written for Good Cases (expected), Bad Cases (not expected), Edge Cases
+//1. Test Cases must be written for Good Cases (expected), Bad Cases (not expected), Edge Cases
+
+// I.
+//2. To test JSON string details, Controller-API is returning
+//we can use "assertj and hamcrest" matcher library
+
+//.andExpect(jsonPath("$.product.name", is("Iphone")))
+//.andExpect(jsonPath("$.length()", is(101)));
+
+//jsonPath: provided by assertj library, is: matcher is provided by hamcrest library
+
+// II.
+//3. Till now we have tested the behavior but to test the implementation
+// of "argument passed through productController method(sameParam) -> productService method(sameParam) is same or not"
+// we can use @Captor
+    //@Captor
+    //private ArgumentCaptor<Long> idCaptor;
+
+// Long id = 101L;
+// productController.getProductById(id)
+
+//verify(productService).getProductById(idCaptor.capture());
+//assertEquals(id, idCaptor.getValue());
